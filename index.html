@@ -1,0 +1,272 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta http-equiv="refresh" content="600">
+<title>AIミックス 南関</title><style>
+:root{--ground:#F4F3EF;--surface:#FFFFFF;--sunk:#ECEAE3;--ink:#1B1A17;--ink2:#5E5A52;--line:#DAD6CC;
+--accent:#0F6E6A;--accent-soft:#DDF0EE;--up:#B4560C;--up-soft:#FBEBD9;--down:#5E5A52;--bar:#0F6E6A;--bar2:#B9AFC2;
+--display:"Hiragino Mincho ProN","Yu Mincho",serif;--body:"Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+--mono:ui-monospace,"SF Mono",Menlo,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--ground:#121114;--surface:#1C1A1F;
+--sunk:#26232A;--ink:#ECE8F0;--ink2:#A49FAA;--line:#34303A;--accent:#6FD3CB;--accent-soft:#173533;--up:#F0A35E;
+--up-soft:#3A2816;--down:#A49FAA;--bar:#5CC4BC;--bar2:#5A5262}}
+:root[data-theme="dark"]{color-scheme:dark;--ground:#121114;--surface:#1C1A1F;--sunk:#26232A;--ink:#ECE8F0;--ink2:#A49FAA;
+--line:#34303A;--accent:#6FD3CB;--accent-soft:#173533;--up:#F0A35E;--up-soft:#3A2816;--down:#A49FAA;--bar:#5CC4BC;--bar2:#5A5262}
+.wrap.wide{max-width:1180px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font:15px/1.55 var(--body)}
+.wrap{max-width:960px;margin:0 auto;padding:20px 16px 64px;display:flex;flex-direction:column;gap:22px}
+header{border-bottom:3px double var(--ink);padding-bottom:12px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:10px}
+.brand{font:700 30px/1.1 var(--display);letter-spacing:.04em}
+.brand small{display:block;font:500 12px/1.5 var(--body);color:var(--ink2);letter-spacing:.06em;margin-top:6px}
+.meta{font-size:12px;color:var(--ink2);text-align:right}
+.legend{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 14px;font-size:13px;color:var(--ink2)}
+.legend b{color:var(--ink)}
+.legend .chip{display:inline-block;padding:0 6px;border-radius:3px;font-size:12px}
+nav.venues{display:flex;flex-wrap:wrap;gap:6px}
+nav.venues a{font:700 13px var(--body);color:var(--ink);text-decoration:none;border:1px solid var(--line);background:var(--surface);padding:5px 12px;border-radius:4px}
+nav.venues a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h2{font:700 22px/1.3 var(--display);margin:8px 0 0;scroll-margin-top:12px}
+details.day>summary{font:700 18px var(--display);cursor:pointer;padding:6px 0}
+.raceidx{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:10px;scroll-margin-top:70px}
+.idxrow{display:flex;gap:10px;align-items:flex-start}
+.iv{font:700 15px var(--display);min-width:2.6em;padding-top:6px}
+.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(4.2em,1fr));gap:6px;flex:1}
+.rc{display:flex;flex-direction:column;align-items:center;text-decoration:none;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:4px 2px;background:var(--ground)}
+.rc b{font:700 14px var(--mono)}.rc span{font-size:10.5px;color:var(--ink2)}
+.rc.mix{border-color:var(--up)}
+.rc.off{opacity:.45;border-style:dashed}
+.rc:hover,.rc:focus-visible{border-color:var(--accent);outline:none}
+.back{margin-left:auto;font-size:12px;font-weight:700;color:var(--accent);text-decoration:none;white-space:nowrap}
+.race{scroll-margin-top:70px;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.rh{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--sunk)}
+.rh .no{font:700 18px var(--display)}
+.rh .info{font-size:13px;color:var(--ink2)}
+.tag{font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:3px;background:var(--accent-soft);color:var(--accent)}
+.fin{display:inline-block;margin-left:6px;font-size:11.5px;font-weight:700;padding:0 5px;border-radius:3px;background:var(--sunk);color:var(--ink2);white-space:nowrap}
+.fin.f1{background:var(--accent);color:var(--surface)}.fin.f2,.fin.f3{background:var(--accent-soft);color:var(--accent)}
+.obtn{margin-left:auto;font:700 13px var(--body);border:1px solid var(--accent);background:var(--accent);color:var(--surface);padding:5px 12px;border-radius:4px;cursor:pointer}
+.obtn:disabled{opacity:.6;cursor:wait}
+.oat{font-size:12px;color:var(--ink2)}
+.sub.est{opacity:.8}
+.ev{font-weight:700;color:var(--ink2)}.ev.hi{color:var(--up)}.ev.hi::before{content:"★";font-size:10px}
+.tag.mix{background:var(--up-soft);color:var(--up)}
+.tag.good{background:var(--accent);color:var(--surface)}
+.tag.bad{background:var(--sunk);color:var(--ink2);border:1px dashed var(--line)}
+.rows{display:flex;flex-direction:column;font-size:13.5px}
+.row{display:grid;grid-template-columns:1.7em 2.1em minmax(0,1fr) 6.6em 3.8em 3.6em 3.4em;gap:0 8px;align-items:center;
+padding:6px 10px;border-bottom:1px solid var(--line);order:var(--ab)}
+.row:last-child{border-bottom:none}
+.row.head{order:-1 !important;font-size:11px;font-weight:600;color:var(--ink2);padding-block:5px}
+.row.top{background:var(--accent-soft)}
+.who{min-width:0}
+.sorter{position:sticky;top:0;z-index:5;background:var(--ground);padding:8px 0;display:flex;flex-wrap:wrap;gap:6px;align-items:center;border-bottom:1px solid var(--line)}
+.sorter b{font-size:12px;color:var(--ink2);margin-right:2px}
+.sorter label{font:700 13px var(--body);border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:5px 11px;border-radius:4px;cursor:pointer}
+.sr{position:absolute;opacity:0;pointer-events:none}
+.sr:focus-visible+label,.sorter label:hover{border-color:var(--accent)}
+body:has(#s-ab:checked) label[for="s-ab"],body:has(#s-tot:checked) label[for="s-tot"],
+body:has(#s-no:checked) label[for="s-no"],body:has(#s-pop:checked) label[for="s-pop"]{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+body:has(#s-tot:checked) .row{order:var(--tot)}
+body:has(#s-no:checked) .row{order:var(--no)}
+body:has(#s-pop:checked) .row{order:var(--pop)}
+.grade{display:inline-block;min-width:1.6em;text-align:center;font:700 14px var(--display);border-radius:3px;padding:0 3px}
+.gS{background:var(--accent);color:var(--surface)}.gA{background:var(--accent-soft);color:var(--accent)}
+.gB{color:var(--ink)}.gC,.gD{color:var(--ink2);font-weight:500}
+details.evinfo{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:8px 14px;font-size:13px}
+details.evinfo summary{font-weight:700;cursor:pointer}
+details.evinfo table{border-collapse:collapse;margin:8px 0;font-size:12.5px}
+details.evinfo td,details.evinfo th{padding:3px 10px;border-bottom:1px solid var(--line);text-align:right}
+details.evinfo th:first-child,details.evinfo td:first-child{text-align:left}
+.mark{font:700 16px var(--display);width:1.6em;text-align:center;color:var(--accent)}
+.waku{display:inline-flex;align-items:center;justify-content:center;width:1.7em;height:1.7em;border-radius:3px;font:700 12px var(--mono);border:1px solid var(--line)}
+.nm{font-weight:700}
+.sub{display:block;font-size:11.5px;color:var(--ink2);font-weight:400}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.bar{display:flex;align-items:center;gap:6px;justify-content:flex-end}
+.bar i{display:block;height:6px;border-radius:3px;background:var(--bar);min-width:2px}
+.tot i{background:var(--bar2)}
+.gap{font-size:11px;font-weight:700;padding:0 5px;border-radius:3px;white-space:nowrap}
+.gap.up{background:var(--up-soft);color:var(--up)}
+.gap.dn{color:var(--down)}
+.gap.cand{background:var(--accent);color:var(--surface)}
+.gap.teppan{background:var(--accent);color:var(--surface)}
+.cands{background:var(--surface);border:1px solid var(--accent);border-radius:8px;padding:12px 14px}
+.cands h3{font:700 16px var(--display);margin:0 0 6px}
+.cands ul{margin:6px 0 0;padding-left:1.2em}
+.cands .note{font-size:12px;color:var(--ink2)}
+.empty{padding:24px;text-align:center;color:var(--ink2);background:var(--surface);border:1px dashed var(--line);border-radius:8px}
+.switch{display:flex;gap:8px;font-size:13px}
+.switch a,.switch b{padding:5px 12px;border-radius:4px;border:1px solid var(--line);text-decoration:none;color:var(--ink);background:var(--surface)}
+.switch b{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+footer{font-size:12px;color:var(--ink2);border-top:1px solid var(--line);padding-top:12px}
+@media (max-width:560px){.hide-sm{display:none}.row{grid-template-columns:1.3em 1.8em minmax(0,1fr) 4.4em 3em 2.7em 2.6em;gap:0 4px;padding:6px 6px}
+.rh .no{font-size:16px}.bar i{display:none}.nm{font-size:13.5px}.rows{font-size:12.5px}}
+
+.bar2{display:flex;flex-direction:column;gap:6px}
+.vtabs{position:sticky;top:0;z-index:5;background:var(--ground);padding:8px 0;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.vtab{font:700 13px var(--body);border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:5px 11px;border-radius:999px;cursor:pointer}
+.vtab small{font-weight:500;color:var(--ink2);margin-left:3px}
+.vtab[aria-pressed="true"]{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+.vtab[aria-pressed="true"] small{color:inherit;opacity:.75}
+.vtab:focus-visible,.rchip:focus-visible,.allbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.rchips{display:flex;gap:5px;overflow-x:auto;padding-bottom:2px;scrollbar-width:thin}
+.rchip{flex:none;display:flex;flex-direction:column;align-items:center;min-width:3.4em;text-decoration:none;color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:3px 6px;background:var(--surface);font-size:10.5px;line-height:1.3}
+.rchip b{font:700 13px var(--mono)}
+.rchip i{font-style:normal;font-size:10px;font-weight:700;color:var(--ink2)}
+.rchip.done{opacity:.55}
+.rchip.next{border-color:var(--up);background:var(--up-soft)}.rchip.next i{color:var(--up)}
+.rchip.off{opacity:.4;border-style:dashed}
+.hint{font-size:12px;color:var(--ink2);display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center}
+.vh{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;margin-top:6px}
+.vh h2{margin:0}
+.vh .vs{font-size:13px;color:var(--ink2)}
+.vh .vs b{color:var(--ink)}
+.vh .openall{margin-left:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(440px,1fr));gap:12px}
+.card{scroll-margin-top:64px;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;min-width:0}
+.card.next{border:2px solid var(--up)}
+.ch{display:flex;flex-wrap:wrap;gap:3px 8px;align-items:center;padding:8px 10px 4px}
+.ch .rno{font:700 15px var(--mono);background:var(--ink);color:var(--ground);border-radius:4px;padding:0 6px}
+.card.done .ch .rno{background:var(--ink2)}
+.ch .ttl{font-weight:700;font-size:14px;min-width:0}
+.ch .post{margin-left:auto;font-size:12.5px;color:var(--ink2);white-space:nowrap}
+.ch .post b{color:var(--up);margin-left:4px}
+.nexttag{font-size:11px;font-weight:700;padding:1px 6px;border-radius:3px;background:var(--up);color:var(--surface)}
+.cs{display:flex;flex-wrap:wrap;gap:3px 8px;align-items:center;padding:0 10px 6px;font-size:12px;color:var(--ink2)}
+.allbtn{margin-left:auto;font:700 12px var(--body);border:1px solid var(--line);background:var(--ground);color:var(--ink);border-radius:4px;padding:2px 8px;cursor:pointer}
+table.hs{width:100%;border-collapse:collapse;table-layout:fixed;font-size:13px}
+.hs th{font-size:10.5px;font-weight:600;color:var(--ink2);padding:3px 4px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--sunk);text-align:right;white-space:nowrap}
+.hs td{padding:5px 4px;border-bottom:1px solid var(--line);text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.hs tr:last-child td{border-bottom:none}
+.hs .u{font-size:.8em;opacity:.6}
+.hs .sub .gr{font-size:10px;margin-left:5px;vertical-align:0}.hs .sub .mini{font-size:10px}
+.hs .c-mk{width:1.7em;text-align:center}.hs .c-no{width:2.2em;text-align:center}
+.hs .c-nm{text-align:left;font-family:var(--body);white-space:normal;overflow:hidden}
+.hs .c-p{width:3.6em}.hs .c-p3{width:3.6em}.hs .c-pp{width:2.4em}.hs .c-od{width:3.5em}.hs .c-ev{width:3.3em}.hs .c-fin{width:2.8em}
+.hs td.c-mk{font:700 15px var(--display);color:var(--accent)}
+.hs tr.top{background:var(--accent-soft)}
+.hs tr.ex{display:none}
+.card.all .hs tr.ex{display:table-row}
+.hs .nm{font-weight:700;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hs .sub{display:block;font-size:11px;color:var(--ink2);white-space:normal;line-height:1.45}
+.hs .p{font-weight:700}
+.hs .od.est,.hs .pp.est{color:var(--ink2);opacity:.7}
+.hs .od.chg{background:var(--up-soft)}
+.hs .ev{font-weight:700;color:var(--ink2)}.hs .ev.hi{color:var(--up)}.hs .ev::before{content:none !important}
+.f{display:inline-block;min-width:1.9em;text-align:center;font:700 11.5px var(--body);border-radius:3px;padding:0 3px;color:var(--ink2)}
+.f.f1{background:var(--accent);color:var(--surface)}.f.f2,.f.f3{background:var(--accent-soft);color:var(--accent)}
+.gr{display:inline-block;font:700 10.5px var(--display);border-radius:3px;padding:0 4px;margin-left:4px;vertical-align:1px}
+.mini{font-size:10.5px;font-weight:700;padding:0 4px;border-radius:3px;margin-left:4px;white-space:nowrap}
+.mini.up{background:var(--up-soft);color:var(--up)}.mini.dn{color:var(--down)}.mini.tp{background:var(--accent);color:var(--surface)}
+/* --- すっきり表示（1頭1行） --- */
+.rchips{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;overflow:visible}
+.rchips .vlabel{grid-column:1/-1;font:700 12px var(--body);color:var(--ink2);margin-top:2px}
+.rchip{min-width:0;padding:4px 2px;border-radius:6px}.rchip i:empty{display:none}.rchip.done{opacity:.45}
+.rchip.next{background:var(--ink);border-color:var(--ink);color:var(--ground)}.rchip.next i{color:var(--up)}
+.card{border-radius:6px}
+.card.next{border:1.5px solid var(--up)}
+.ch,.cs{background:var(--sunk)}
+.cs{padding:0 10px 6px}
+.ch .rno{background:var(--up);color:var(--surface)}
+.card.done .ch .rno{background:var(--ink2)}
+.hs th{background:var(--surface);border-top:2px solid var(--ink);font-size:10px;padding:3px 3px;color:var(--ink2)}
+.hs td{padding:4px 3px;font-family:var(--body);height:30px;border-bottom:1px solid color-mix(in srgb,var(--line) 60%,transparent)}
+.hs tr.top{background:none}
+.hs td.c-mk{color:var(--up)}
+.hs .nm{font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:clip}
+.hs .tp{margin-left:3px;font-size:11px}
+.hs .p{font-weight:700}
+.hs .u{font-size:inherit;opacity:1}
+@media (max-width:560px){table.hs{font-size:11.5px}.hs td{padding:3px 1px;height:28px}.hs .nm{font-size:12px}
+.hs .u{display:inline}.hs .c-p,.hs .c-p3{width:3.5em}.rchip b{font-size:12px}}
+/* 配当 */
+.pay{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;padding:7px 8px 8px;border-top:1px solid var(--line);background:var(--sunk)}
+.pay .pv{position:relative;display:flex;flex-direction:column;align-items:center;padding:4px 4px 5px;border-radius:6px;background:var(--surface);border:1px solid var(--line);white-space:nowrap;line-height:1.25}
+.pay .pk{font-size:10px;font-weight:700;color:var(--ink2)}
+.pay .pc{font:600 10.5px var(--mono);color:var(--ink2);margin-left:3px}
+.pay .py{font:700 14px var(--mono);color:var(--ink)}.pay .py small{font-size:10px;font-weight:600;margin-left:1px}
+.pay .pv.big .py{color:var(--up)}
+.pay .pv.hit{background:var(--accent);border-color:var(--accent)}.pay .pv.hit *{color:var(--surface)}
+.pay .pv.hit::after{content:"的中";position:absolute;top:-7px;right:-3px;font-size:9.5px;font-weight:700;padding:0 4px;border-radius:3px;background:var(--up);color:var(--surface)}
+[hidden]{display:none !important}
+@media (max-width:560px){.grid{grid-template-columns:1fr}
+table.hs{font-size:11.5px}.hs th{font-size:9px;padding:3px 1px}.hs td{padding:5px 3px}.hs .u{display:none}.hs .sub .mini.up{font-size:0}.hs .sub .mini.up::after{content:"↑人気";font-size:9.5px}
+.hs .c-mk{width:1.3em}.hs .c-no{width:1.8em}.hs .c-p{width:3.1em}.hs .c-p3{width:3.1em}.hs .c-pp{width:1.6em}
+.hs .c-od{width:2.9em}.hs .c-ev{width:2.6em}.hs .c-fin{width:1.9em}.hs td.c-mk{font-size:13px}.hs td.c-nm{padding-left:3px}
+.f{min-width:1.5em;padding:0 2px}.f .u{display:none}
+.waku{width:1.55em;height:1.55em;font-size:11px}}
+
+.obtn{display:none}
+.pick{font-size:10.5px;font-weight:700;padding:0 4px;border-radius:3px;margin-left:4px;background:var(--up);color:var(--surface);white-space:nowrap}
+.hs tr.pk td{background:var(--up-soft)}
+.rec{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 14px;display:flex;flex-direction:column;gap:6px}
+.rec h3{margin:0;font:700 16px var(--display)}
+.rec .nums{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;color:var(--ink2)}
+.rec .nums b{font:700 18px var(--mono);color:var(--ink)}
+.rec .nums b.good{color:var(--accent)}.rec .nums b.bad{color:var(--down)}
+.rec ul{margin:0;padding-left:1.1em;font-size:13px}
+.empty{background:var(--surface);border:1px dashed var(--line);border-radius:8px;padding:28px 16px;text-align:center;color:var(--ink2)}
+</style></head>
+<body data-date=""><div class="wrap wide">
+<header><div class="brand">AIミックス<small>南関4場 ・ ゆうこAIとAIマリオネットを混ぜた勝率</small></div><div class="meta"></div></header>
+<section class="rec" aria-label="成績"><h3>🧪 ここまでの成績（発走前の値で判定・お金は賭けていない記録）</h3><div class="nums"><span>まだ結果がありません（2026-11-18 から記録）</span></div>
+<ul><li>過去の検証（2026/9/30〜11/17・南関420R、週ごとに外して確かめた値）: 期待値候補 166頭・単勝回収率 <b>123%</b>（上位3本の配当を除いても115%）、8週のうち6週で100%超。確定オッズでの計算なので、実際の成績はこれより下がる見込みです。</li>
+<li>勝率の精度（対数損失・小さいほど良い）: 単勝オッズ 1.593 ／ ゆうこAI 1.590 ／ マリオネット 1.777 → <b>AIミックス 1.546</b></li></ul></section>
+
+<div class="empty">まだ予想がありません。次の南関開催日から、10時以降10分ごとに表示します。</div>
+<div class="legend"><b>勝率</b>＝1着の見込み。地方競馬ウォッチ（yukochi.com）の南関AIの勝率と単勝オッズを足し合わせ、AIマリオネット地方の能力勝率を少し差し引いて作っています
+（市場とゆうこAIが両方とも持っている近走成績を二重に数えないため）。式: 0.77×log(オッズの勝率)＋0.73×log(ゆうこ勝率)−0.40×log(マリオネット勝率) をレースの中で合計100%にそろえたもの。
+<b>印</b>はこの勝率の高い順（◎○▲△☆）。<b>3着内</b>は勝率から計算した目安。<b>期待値</b>＝勝率×単勝オッズ。
+<b>期待値候補</b>（橙の行）＝期待値1以上かつ単勝5倍未満。過去の検証で10倍以上の人気薄は全滅だったので、5倍未満に絞っています。
+勝率・単勝は発走前の最後の更新（10分ごと・各カードの「◯時点」）のまま残し、発走後に書き換えません。印は参考情報で、買い目の推奨ではありません。</div>
+<footer>材料: 地方競馬ウォッチ 南関AI（勝率・単勝オッズ・着順） ／ AIマリオネット 地方（能力勝率・枠・騎手）</footer>
+</div><script>
+(()=>{
+const today=document.body.dataset.date,KEY='am-venue-'+location.pathname;
+const tabs=[...document.querySelectorAll('.vtab')],cards=[...document.querySelectorAll('.card')];
+function setV(v){tabs.forEach(t=>t.setAttribute('aria-pressed',t.dataset.v===v));
+ document.querySelectorAll('[data-v]').forEach(el=>{if(el.classList.contains('vtab'))return;el.hidden=!(v==='all'||el.dataset.v===v);});
+ try{localStorage.setItem(KEY,v)}catch(e){}}
+tabs.forEach(t=>t.addEventListener('click',()=>setV(t.dataset.v)));
+let v0='all';try{v0=localStorage.getItem(KEY)||'all'}catch(e){}
+if(!tabs.some(t=>t.dataset.v===v0))v0='all';setV(v0);
+document.querySelectorAll('.allbtn').forEach(b=>b.addEventListener('click',()=>{const c=b.closest('.card');const on=!c.classList.contains('all');
+ c.classList.toggle('all',on);b.textContent=on?'閉じる ▴':'全頭を見る ▾';b.setAttribute('aria-expanded',on);}));
+document.querySelectorAll('.openall').forEach(b=>b.addEventListener('click',()=>{const on=b.dataset.on!=='1';b.dataset.on=on?'1':'';
+ b.textContent=on?'この場を閉じる':'この場を全部開く';
+ document.querySelectorAll('.card[data-v="'+b.dataset.for+'"][data-date="'+b.dataset.date+'"]').forEach(c=>{c.classList.toggle('all',on);
+  const x=c.querySelector('.allbtn');if(x){x.textContent=on?'閉じる ▴':'全頭を見る ▾';x.setAttribute('aria-expanded',on);}});}));
+// 次のレース・残り時間・済（今日のカードだけ。30秒ごと）
+function tick(){const now=new Date(),d=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
+ const m=now.getHours()*60+now.getMinutes();const nextBy={};
+ cards.forEach(c=>{if(c.dataset.date!==today)return;const p=c.dataset.post;if(!p)return;const [h,mi]=p.split(':').map(Number);const pm=h*60+mi;
+  const done=c.dataset.done==='1'||(d===today&&pm<m-1)||d>today;c.classList.toggle('done',done);
+  const cd=c.querySelector('.cd');if(cd)cd.textContent=(!done&&d===today&&pm-m<=120&&pm>=m)?'あと '+(pm-m)+' 分':'';
+  if(!done&&d===today&&(!nextBy[c.dataset.v]||pm<nextBy[c.dataset.v][0]))nextBy[c.dataset.v]=[pm,c];});
+ const nx=new Set(Object.values(nextBy).map(x=>x[1]));
+ cards.forEach(c=>{if(c.dataset.date!==today)return;const on=nx.has(c);c.classList.toggle('next',on);const t=c.querySelector('.nexttag');if(t)t.hidden=!on;
+  const ch=document.querySelector('.rchip[href="#'+c.id+'"]');if(ch){ch.classList.toggle('next',on);ch.classList.toggle('done',c.classList.contains('done'));
+   const i=ch.querySelector('i');if(i)i.textContent=on?'次':(c.classList.contains('done')?'済':'');}});}
+tick();setInterval(tick,30000);
+function fit(){document.querySelectorAll('.hs .nm').forEach(n=>{if(!n.offsetParent)return;n.style.fontSize='';let f=parseFloat(getComputedStyle(n).fontSize);
+ while(n.scrollWidth>n.clientWidth+1&&f>8.5){f-=.5;n.style.fontSize=f+'px';}});}
+fit();addEventListener('resize',fit);document.addEventListener('click',()=>setTimeout(fit,0));
+// オッズ（odds ブランチの JSON を GitHub API から。1時間60回まで → 自動は90秒ごと・見ている間だけ。だめなら Pages の控え）
+const b=document.getElementById('obtn'),at=document.getElementById('oat');const API=document.body.dataset.api,FB=document.body.dataset.fb;
+if(!b||!API)return;
+async function getOdds(){try{const r=await fetch(API+'&t='+Date.now(),{cache:'no-store'});if(r.ok){const j=await r.json();return JSON.parse(atob(j.content.replace(/\s/g,'')));}}catch(e){}
+ const r=await fetch(FB+'?t='+Date.now(),{cache:'no-store'});return r.json();}
+async function upd(manual){if(manual){b.disabled=true;b.textContent='更新中…';}
+ try{const d=await getOdds();if(d.date!==today)throw 0;let n=0;
+  document.querySelectorAll('tr[data-k]').forEach(tr=>{const o=d.o[tr.dataset.k];if(!o)return;const od=tr.querySelector('.od'),pp=tr.querySelector('.pp'),ev=tr.querySelector('.ev');
+   const t=o[0].toFixed(1);if(od.textContent!==t||od.classList.contains('est')){od.textContent=t;od.classList.remove('est');od.classList.add('chg');n++;}
+   pp.textContent=o[1];pp.classList.remove('est');const v=tr.dataset.p*o[0];ev.textContent=v.toFixed(2);ev.classList.toggle('hi',v>=1);});
+  at.textContent='オッズ '+d.at+' 時点'+(n?'（'+n+'頭変化）':(manual?'（変化なし）':''));}
+ catch(e){if(manual)at.textContent='更新できませんでした';}
+ if(manual){b.disabled=false;b.textContent='↻ 今すぐ更新';}}
+b.addEventListener('click',()=>upd(true));
+upd(false);setInterval(()=>{if(!document.hidden)upd(false);},90000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){upd(false);tick();}});
+})();
+</script></body></html>
